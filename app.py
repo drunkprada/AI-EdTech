@@ -58,7 +58,7 @@ def fetch_wikipedia_content(topic):
                 'url': page.url,
                 'summary': page.summary
             }, None
-        except:
+        except Exception as ex:
             return None, f"Multiple articles found. Please be more specific."
     except Exception as e:
         # Fall back to mock data if Wikipedia is not accessible
@@ -72,7 +72,7 @@ def fetch_wikipedia_content(topic):
                 'url': f'https://en.wikipedia.org/wiki/{mock["title"].replace(" ", "_")}',
                 'summary': mock['content'][:500]
             }, None
-        except:
+        except Exception as ex:
             return None, f"Error fetching content: {str(e)}"
 
 def fetch_youtube_videos(topic, max_results=5):
@@ -220,8 +220,9 @@ def generate_quiz(text, keywords, num_questions=5):
             if relevant_sentences:
                 sentence = relevant_sentences[0]
                 
-                # Create a fill-in-the-blank question
-                question_text = sentence.replace(keyword, "______")
+                # Create a fill-in-the-blank question using word boundaries
+                # Use regex to replace only whole word occurrences
+                question_text = re.sub(r'\b' + re.escape(keyword) + r'\b', "______", sentence, flags=re.IGNORECASE)
                 
                 # Create options (correct answer + distractors)
                 options = [keyword]
@@ -229,18 +230,23 @@ def generate_quiz(text, keywords, num_questions=5):
                 # Add random keywords as distractors
                 other_keywords = [k for k in keywords if k != keyword]
                 random.shuffle(other_keywords)
-                options.extend(other_keywords[:3])
                 
-                # Shuffle options
-                random.shuffle(options)
+                # Ensure we have at least 3 distractors or use all available
+                num_distractors = min(3, len(other_keywords))
+                options.extend(other_keywords[:num_distractors])
                 
-                quiz.append({
-                    'id': i + 1,
-                    'question': f"Fill in the blank: {question_text}",
-                    'options': options,
-                    'correct_answer': keyword,
-                    'explanation': sentence
-                })
+                # Only create quiz if we have at least 2 options
+                if len(options) >= 2:
+                    # Shuffle options
+                    random.shuffle(options)
+                    
+                    quiz.append({
+                        'id': i + 1,
+                        'question': f"Fill in the blank: {question_text}",
+                        'options': options,
+                        'correct_answer': keyword,
+                        'explanation': sentence
+                    })
         
         return quiz
     except Exception as e:
