@@ -330,5 +330,9 @@ if __name__ == '__main__':
     # Create static directory if it doesn't exist
     os.makedirs('static', exist_ok=True)
     
+    # Get debug mode from environment variable (default to False for production)
+    debug_mode = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
+    
     # Run the app
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Note: debug mode should only be enabled in development, never in production
+    app.run(debug=debug_mode, host='0.0.0.0', port=5000)
