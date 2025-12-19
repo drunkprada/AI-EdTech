@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI EdTech - Learn Anything</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎓 AI EdTech</h1>
+            <p class="tagline">Learn anything with AI-powered summaries, flashcards, and quizzes</p>
+        </header>
+
+        <!-- Topic Input Section -->
+        <section class="input-section" id="inputSection">
+            <div class="input-container">
+                <input 
+                    type="text" 
+                    id="topicInput" 
+                    class="topic-input" 
+                    placeholder="Enter any topic to learn (e.g., Artificial Intelligence, Photosynthesis, Ancient Rome)"
+                    autocomplete="off"
+                >
+                <button id="learnBtn" class="learn-btn">
+                    <span class="btn-text">Learn</span>
+                    <span class="btn-icon">→</span>
+                </button>
+            </div>
+            <div class="example-topics">
+                <span>Try:</span>
+                <button class="example-btn" data-topic="Machine Learning">Machine Learning</button>
+                <button class="example-btn" data-topic="Quantum Physics">Quantum Physics</button>
+                <button class="example-btn" data-topic="Renaissance Art">Renaissance Art</button>
+            </div>
+        </section>
+
+        <!-- Loading Spinner -->
+        <div class="loading-spinner" id="loadingSpinner">
+            <div class="spinner"></div>
+            <p>Generating personalized learning content...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" id="errorMessage"></div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection" style="display: none;">
+            
+            <!-- Topic Title -->
+            <div class="topic-header">
+                <h2 id="topicTitle"></h2>
+                <a id="wikiLink" href="#" target="_blank" class="wiki-link">View on Wikipedia →</a>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="summary">📝 Summary</button>
+                <button class="tab-btn" data-tab="flashcards">🃏 Flashcards</button>
+                <button class="tab-btn" data-tab="quiz">📋 Quiz</button>
+                <button class="tab-btn" data-tab="videos">🎥 Videos</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                
+                <!-- Summary Tab -->
+                <div class="tab-pane active" id="summaryTab">
+                    <div class="card">
+                        <h3>📝 Key Summary</h3>
+                        <p id="summaryText" class="summary-text"></p>
+                        
+                        <h4>🔑 Key Concepts</h4>
+                        <div id="keywordsList" class="keywords-list"></div>
+                    </div>
+                </div>
+
+                <!-- Flashcards Tab -->
+                <div class="tab-pane" id="flashcardsTab">
+                    <div class="flashcard-controls">
+                        <button id="prevCard" class="nav-btn">← Previous</button>
+                        <span id="cardCounter" class="card-counter">1 / 10</span>
+                        <button id="nextCard" class="nav-btn">Next →</button>
+                    </div>
+                    
+                    <div class="flashcard-container">
+                        <div class="flashcard" id="flashcard">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">
+                                    <div class="flashcard-label">Question</div>
+                                    <p id="flashcardQuestion"></p>
+                                    <div class="flip-hint">Click to flip</div>
+                                </div>
+                                <div class="flashcard-back">
+                                    <div class="flashcard-label">Answer</div>
+                                    <p id="flashcardAnswer"></p>
+                                    <div class="flip-hint">Click to flip</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz Tab -->
+                <div class="tab-pane" id="quizTab">
+                    <div id="quizContainer">
+                        <div class="quiz-header">
+                            <h3>Quiz Time! 🎯</h3>
+                            <div class="quiz-score">
+                                <span>Score: <strong id="quizScore">0</strong> / <span id="quizTotal">5</span></span>
+                            </div>
+                        </div>
+                        
+                        <div id="quizQuestion" class="quiz-question-container">
+                            <!-- Quiz questions will be inserted here -->
+                        </div>
+                        
+                        <div class="quiz-navigation">
+                            <button id="prevQuestion" class="nav-btn" disabled>← Previous</button>
+                            <span id="questionCounter" class="question-counter">Question 1 / 5</span>
+                            <button id="nextQuestion" class="nav-btn">Next →</button>
+                        </div>
+                        
+                        <div id="quizResults" class="quiz-results" style="display: none;">
+                            <h3>Quiz Complete! 🎉</h3>
+                            <div class="final-score">
+                                <p>Your Score: <strong id="finalScore"></strong></p>
+                                <p id="scoreMessage"></p>
+                            </div>
+                            <button id="retakeQuiz" class="learn-btn">Retake Quiz</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Videos Tab -->
+                <div class="tab-pane" id="videosTab">
+                    <div class="card">
+                        <h3>🎥 Educational Videos</h3>
+                        <div id="videosList" class="videos-grid">
+                            <!-- Videos will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Back to Search Button -->
+            <button id="newSearchBtn" class="new-search-btn">🔍 Search New Topic</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
