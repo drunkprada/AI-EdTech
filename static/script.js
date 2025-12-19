@@ -232,13 +232,14 @@ function displayQuestion(question) {
     const optionsDiv = document.createElement('div');
     optionsDiv.className = 'quiz-options';
 
+    // Check if already answered
+    const userAnswer = userAnswers[currentQuestionIndex];
+
     question.options.forEach((option, index) => {
         const optionBtn = document.createElement('button');
         optionBtn.className = 'quiz-option';
         optionBtn.textContent = option;
         
-        // Check if already answered
-        const userAnswer = userAnswers[currentQuestionIndex];
         if (userAnswer) {
             optionBtn.classList.add('disabled');
             if (option === userAnswer) {
